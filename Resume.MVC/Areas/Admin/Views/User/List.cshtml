@@ -1,0 +1,106 @@
+﻿@using Resume.DLA.ViewModels.User
+@model FilterUserViewModel
+
+@{
+    ViewData["Title"] = "لیست کاربران";
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-4">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    فیلتر ها
+                </h2>
+            </div>
+            <div class="body">
+                <form asp-action="List" method="get" id="filter-search">
+                    <input type="hidden" asp-for="Page" />
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" asp-for="Mobile">
+                                    <label class="form-label" asp-for="Mobile">موبایل</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 md-4">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" asp-for="Email">
+                                    <label class="form-label" asp-for="Email">ایمیل</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <button class="btn btn-success">جستجو</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    @ViewData["Title"]
+                </h2>
+            </div>
+            <div class="body table-responsive">
+                @if(Model!=null && Model.Entities!=null && Model.Entities.Any()){
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ایدی</th>
+                                <th>نام</th>
+                                <th>نام خانوادگی</th>
+                                <th>ایمیل</th>
+                                <th>موبایل</th>
+                                <th>وضعیت</th>
+                                <th>تاریخ ثبت</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Entities)
+                            {
+                                <tr>
+                                    <th scope="row">@item.Id</th>
+                                    <td>@item.FirstName</td>
+                                    <td>@item.LastName</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.Mobile</td>
+                                    <td>
+                                        @if (item.IsActive)
+                                        {
+                                            <div class="badge col-green">فعال</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="badge col-red">غیر فعال</div>
+                                        }
+                                    </td>
+                                    <td>@item.RegDate</td>
+                                    <td>
+                                        <a asp-action="Update" class="text-warning" asp-route-id="@item.Id">
+                                            <i class="fa fa-pen"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+
+                    <partial name="_AdminPagination" model="@Model.GetCurrentPaging()" />
+                }
+                else
+                {
+                    <partial name="_AdminNotFound" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
