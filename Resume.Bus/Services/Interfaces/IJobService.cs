@@ -13,7 +13,7 @@ namespace Resume.Bus.Services.Interfaces
 		Task<CreateJobResult> CreateAsync(CreateJobViewModel model);
 		Task<EditJobResult> EditAsync(EditJobViewModel model);
 		Task<EditJobViewModel> GetInfoById(int id);
-		Task<DeleteJobResult> DeleteAsync(DeleteJobViewModel model);
+		Task<DeleteJobResult> DeleteAsync(int id);
 		Task<DeleteJobViewModel> GetJobForDelete(int id);
 	}
 }

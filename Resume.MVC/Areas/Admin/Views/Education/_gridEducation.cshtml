@@ -1,0 +1,55 @@
+﻿@using Resume.Bus.Extentions
+@using Resume.DLA.ViewModels.Education
+@model FilterEducationViewModel
+
+
+<div class="card">
+    <div class="header">
+        <h2>
+            @ViewData["Title"]
+        </h2>
+    </div>
+    <div class="body table-responsive">
+        @if (Model != null && Model.Entities != null && Model.Entities.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>آیدی</th>
+                        <th>عنوان</th>
+                        <th>تاریخ شروع</th>
+                        <th>تاریخ پایان</th>
+                        <th>تاریخ ثبت</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Entities)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Title</td>
+                            <td>@item.Start.ToShamsiJustDate()</td>
+                            <td>@(item.End.HasValue ? item.End.Value.ToShamsiJustDate() : "")</td>
+                            <td>@item.CreateOn.ToShamsi()</td>
+                            <td>
+                                <a class="text-info" onclick="showModalEditEducation(@item.Id)">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <a class="text-info" onclick="showModalDeleteEducation(@item.Id)">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <partial name="_AdminPagination" model="@Model.GetCurrentPaging()" />
+        }
+        else
+        {
+            <partial name="_AdminNotFound" />
+        }
+    </div>
+</div>

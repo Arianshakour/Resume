@@ -41,8 +41,9 @@ namespace Resume.DLA.ViewModels.Common
 				EndPage = EndPage,
 				Page = Page,
 				StartPage = StartPage,
-				PageCount = PageCount
-			};
+				PageCount = PageCount,
+                //TakeEntity = TakeEntity
+            };
 		}
 
 
@@ -110,5 +111,6 @@ namespace Resume.DLA.ViewModels.Common
 		public int EndPage { get; set; }
 
 		public int PageCount { get; set; }
-	}
+        //public int TakeEntity { get; set; }
+    }
 }

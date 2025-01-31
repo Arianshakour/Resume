@@ -21,7 +21,7 @@ namespace Resume.MVC.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return PartialView("Create");
         }
         [HttpPost]
         public async Task<IActionResult> Create(CreateEducationViewModel model)
@@ -51,7 +51,7 @@ namespace Resume.MVC.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            return View(x);
+            return PartialView("Edit",x);
         }
         [HttpPost]
         public async Task<IActionResult> Edit(EditEducationViewModel model)
@@ -82,7 +82,7 @@ namespace Resume.MVC.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            return View(x);
+            return PartialView("Delete",x);
         }
         [HttpPost]
         public async Task<IActionResult> DeleteConfirm(DeleteEducationViewModel model)

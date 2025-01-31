@@ -45,62 +45,69 @@
                         </div>
                         <div class="col-sm-12">
                             <button class="btn btn-success">جستجو</button>
+                            <a class="btn btn-warning" onclick="showModalCreateEducation()">افزودن تحصیلات</a>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="card">
-            <div class="header">
-                <h2>
-                    @ViewData["Title"]
-                </h2>
-            </div>
-            <div class="body table-responsive">
-                @if (Model != null && Model.Entities != null && Model.Entities.Any())
-                {
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>آیدی</th>
-                                <th>عنوان</th>
-                                <th>تاریخ شروع</th>
-                                <th>تاریخ پایان</th>
-                                <th>تاریخ ثبت</th>
-                                <th>عملیات</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.Entities)
-                            {
-                                <tr>
-                                    <td>@item.Id</td>
-                                    <td>@item.Title</td>
-                                    <td>@item.Start</td>
-                                    <td>@item.End</td>
-                                    <td>@item.CreateOn.ToShamsi()</td>
-                                    <td>
-                                        <a asp-action="Edit" class="text-info" asp-route-id="@item.Id">
-                                            <i class="fa fa-eye"></i>
-                                        </a>
-                                        <a asp-action="Delete" class="text-info" asp-route-id="@item.Id">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+    <div id="gridEducation" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <partial name="~/Areas/Admin/Views/Education/_gridEducation.cshtml">
+    </div>
+</div>
 
-                    <partial name="_AdminPagination" model="@Model.GetCurrentPaging()" />
-                }
-                else
-                {
-                    <partial name="_AdminNotFound" />
-                }
+<!-- مودال -->
+<div class="modal fade" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="formModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formModal">عملیات شغل</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" id="bodymodal">
+                <!-- محتوا به صورت داینامیک بارگذاری می‌شود -->
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function showModalDeleteEducation(id){
+        $.ajax({
+            url: "Delete?id=" + id,
+            type: "GET",
+            data: {}
+        }).done(function (result) {
+            $('#mymodal').modal('show');
+            $('#formModal').html('آیا از حذف اطمینان دارید ؟');
+            $('#bodymodal').html(result);
+        });
+    }
+
+    function showModalEditEducation(id) {
+        $.ajax({
+            url: "Edit?id=" + id,
+            type: "GET",
+            data: {}
+        }).done(function (result) {
+            $('#mymodal').modal('show');
+            $('#formModal').html('ویرایش تحصیلات');
+            $('#bodymodal').html(result);
+        });
+    }
+
+    function showModalCreateEducation(id) {
+        $.ajax({
+            url: "Create",
+            type: "GET",
+            data: {}
+        }).done(function (result) {
+            $('#mymodal').modal('show');
+            $('#formModal').html('افزودن تحصیلات');
+            $('#bodymodal').html(result);
+        });
+    }
+</script>

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Resume.Bus.Extentions;
 using Resume.Bus.Services.Interfaces;
+using Resume.DLA.Entities.User;
 using Resume.DLA.ViewModels.Education;
 using Resume.DLA.ViewModels.Job;
 
@@ -20,27 +22,25 @@ namespace Resume.MVC.Areas.Admin.Controllers
 		}
 		public ActionResult Create()
 		{
-			return View();
+			return PartialView("Create");
 		}
 		[HttpPost]
 		public async Task<IActionResult> Create(CreateJobViewModel model)
 		{
-			if (!ModelState.IsValid)
-			{
-				return View(model);
-			}
-			var result = await _jobService.CreateAsync(model);
-			switch (result)
-			{
-				case CreateJobResult.Success:
-					TempData[SuccessMessage] = "با موفقیت انجام شد";
-					return RedirectToAction("List");
-				case CreateJobResult.Error:
-					TempData[ErrorMessage] = "خطایی رخ داده";
-					break;
-			}
-			return View(model);
-		}
+            if (!ModelState.IsValid)
+            {
+				string v1 = ViewRendererUtils.RenderRazorViewToString(this, "~/Areas/Admin/Views/Job/Create.cshtml", model);
+                return Json(new { view = v1, isGrid = 0 });
+            }
+            await _jobService.CreateAsync(model);
+            // chon mikhaim safe list ra render konim in method ma khorojish createresult hast pas
+			//be dard nemikhore ma bayad filter ra pas bdim injoori
+			//mitooni baraye tamizi method create ra taqir bdi ke filterviewmodel bargardoone
+            FilterJobViewModel filterModel = new FilterJobViewModel();
+            filterModel = await _jobService.FilterAsync(filterModel);
+            string v2 = ViewRendererUtils.RenderRazorViewToString(this, "~/Areas/Admin/Views/Job/_gridJob.cshtml", filterModel);
+            return Json(new { view = v2, isGrid = 1 });
+        }
 		public async Task<IActionResult> Edit(int id)
 		{
 			var result = await _jobService.GetInfoById(id);
@@ -48,9 +48,9 @@ namespace Resume.MVC.Areas.Admin.Controllers
 			{
 				return NotFound();
 			}
-			return View(result);
-		}
-		[HttpPost]
+            return PartialView("Edit", result);
+        }
+        [HttpPost]
 		public async Task<IActionResult> Edit(EditJobViewModel model)
 		{
 			if (!ModelState.IsValid)
@@ -79,26 +79,15 @@ namespace Resume.MVC.Areas.Admin.Controllers
 			{
 				return NotFound();
 			}
-			return View(result);
+			return PartialView("Delete", result);
 		}
 		[HttpPost]
-		public async Task<IActionResult> DeleteConfirm(DeleteJobViewModel model)
+		public async Task<IActionResult> DeleteConfirm(int id)
 		{
-			if (!ModelState.IsValid)
-			{
-				return View(model);
-			}
-			var result = await _jobService.DeleteAsync(model);
-			switch (result)
-			{
-				case DeleteJobResult.Success:
-					TempData[SuccessMessage] = "با موفقیت انجام شد";
-					return RedirectToAction("List");
-				case DeleteJobResult.Error:
-					TempData[ErrorMessage] = "خطایی رخ داده";
-					break;
-			}
-			return View(model);
+			await _jobService.DeleteAsync(id);
+            FilterJobViewModel filterModel = new FilterJobViewModel();
+            filterModel = await _jobService.FilterAsync(filterModel);
+            return PartialView("~/Areas/Admin/Views/Job/_gridJob.cshtml", filterModel);
 		}
 	}
 }

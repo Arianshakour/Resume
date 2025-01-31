@@ -33,9 +33,9 @@ namespace Resume.Bus.Services.Implementation
 			return CreateJobResult.Success;
 		}
 
-		public async Task<DeleteJobResult> DeleteAsync(DeleteJobViewModel model)
+		public async Task<DeleteJobResult> DeleteAsync(int id)
 		{
-			var x = await _jobRepository.GetById(model.Id);
+			var x = await _jobRepository.GetById(id);
 			if (x == null)
 			{
 				return DeleteJobResult.Error;
