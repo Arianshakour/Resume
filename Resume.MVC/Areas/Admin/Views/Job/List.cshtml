@@ -18,6 +18,7 @@
             <div class="body">
                 <form asp-action="List" method="get" id="filter-search">
                     <input type="hidden" asp-for="Page" />
+                    <input type="hidden" asp-for="TakeEntity" />
                     <div class="row clearfix">
                         <div class="col-sm-12  col-md-4">
                             <div class="form-group form-float">
@@ -114,6 +115,26 @@
         });
     }
 
+    function editJob(){
+        var input = $("#editJobForm").serialize();
+        $.ajax({
+            url: "Edit",
+            type: "Post",
+            data: input,
+            success: function (result) {
+                console.log(result);
+                if (result.isGrid == 0) {
+                    alert("لطفاً اطلاعات را کامل وارد کنید");
+                    $('#bodymodal').html(result.view);
+                } else {
+                    $('#gridJob').html(result.view);
+                    $('#gridJob').show();
+                    $('#mymodal').modal('hide');
+                }
+            }
+        });
+    }
+
     function showCreateModalJob() {
         $.ajax({
             url: "Create",
@@ -150,7 +171,6 @@
                 alert("یک خطا رخ داده است. لطفاً دوباره امتحان کنید.");
             }
         });
-
     }
 
 </script>

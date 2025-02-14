@@ -44,7 +44,7 @@ namespace Resume.Bus.Services.Implementation
 			await _jobRepository.Save();
 			return DeleteJobResult.Success;
 		}
-
+		//taqir method be EditAsync2 baraye inke modal render kone
 		public async Task<EditJobResult> EditAsync(EditJobViewModel model)
 		{
 			var x = await _jobRepository.GetById(model.Id);
@@ -62,7 +62,21 @@ namespace Resume.Bus.Services.Implementation
 			return EditJobResult.Success;
 		}
 
-		public async Task<FilterJobViewModel> FilterAsync(FilterJobViewModel model)
+        public async Task<FilterJobViewModel> EditAsync2(EditJobViewModel model)
+        {
+            var x = await _jobRepository.GetById(model.Id);
+            x.Id = model.Id;
+            x.Start = model.Start;
+            x.End = model.End;
+            x.Title = model.Title;
+            x.Description = model.Description;
+            _jobRepository.Edit(x);
+            await _jobRepository.Save();
+			var filter = new FilterJobViewModel();
+			return await FilterAsync(filter);
+        }
+
+        public async Task<FilterJobViewModel> FilterAsync(FilterJobViewModel model)
 		{
 			return await _jobRepository.FilterAsync(model);
 		}

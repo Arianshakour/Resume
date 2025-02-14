@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Resume.Bus.Extentions;
 using Resume.Bus.Services.Interfaces;
 using Resume.DLA.Entities.User;
@@ -55,23 +56,13 @@ namespace Resume.MVC.Areas.Admin.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				return View(model);
-			}
-			var result = await _jobService.EditAsync(model);
-			switch (result)
-			{
-				case EditJobResult.Success:
-					TempData[SuccessMessage] = "با موفقیت انجام شد";
-					return RedirectToAction("List");
-				case EditJobResult.Error:
-					TempData[ErrorMessage] = "خطایی رخ داده";
-					break;
-				case EditJobResult.NotFound:
-					TempData[ErrorMessage] = "پیدا نشد";
-					break;
-			}
-			return View(model);
-		}
+                string v1 = ViewRendererUtils.RenderRazorViewToString(this, "~/Areas/Admin/Views/Job/Edit.cshtml", model);
+                return Json(new { view = v1, isGrid = 0 });
+            }
+			var result = await _jobService.EditAsync2(model);
+            string v2 = ViewRendererUtils.RenderRazorViewToString(this, "~/Areas/Admin/Views/Job/_gridJob.cshtml", result);
+            return Json(new { view = v2, isGrid = 1 });
+        }
 		public async Task<IActionResult> Delete(int id)
 		{
 			var result = await _jobService.GetJobForDelete(id);

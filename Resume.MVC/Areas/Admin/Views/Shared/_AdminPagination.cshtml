@@ -3,8 +3,15 @@
 
 <div class="row">
     <div class="col-sm-12 col-md-12">
-        <div class="dataTables_paginate paging_simple_numbers d-flex justify-content-center" id="tableGroup_paginate">
-            <ul class="pagination">
+        <div class="d-flex justify-content-center align-items-center" id="tableGroup_paginate">
+            <label style="margin-top:30px; margin-left:10px;">تعداد نمایش در صفحه</label>
+            <select id="takeEntityy" class="form-control d-inline-block w-auto" onchange="changeTakeEntity()" style="margin-top:30px; margin-left:10px;">
+                <option disabled selected>انتخاب کنید</option>
+                <option value="2">2</option>
+                <option value="4">4</option>
+                <option value="6">6</option>
+            </select>
+            <ul class="pagination mb-0 me-3">
                 @for (int i = Model.StartPage; i <= Model.EndPage; i++)
                 {
                     <li class="paginate_button page-item @(Model.Page==i?"active":"")">
@@ -14,11 +21,6 @@
                     </li>
                 }
             </ul>
-            @* <select id="takeEntity" class="form-control d-inline-block w-auto" onchange="updateTakeEntity()">
-                <option value="2" data-selected="@Model.TakeEntity">2</option>
-                <option value="4" data-selected="@Model.TakeEntity">4</option>
-                <option value="6" data-selected="@Model.TakeEntity">6</option>
-            </select> *@
         </div>
     </div>
 </div>

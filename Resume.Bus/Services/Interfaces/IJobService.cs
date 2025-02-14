@@ -12,7 +12,8 @@ namespace Resume.Bus.Services.Interfaces
 		Task<FilterJobViewModel> FilterAsync(FilterJobViewModel model);
 		Task<CreateJobResult> CreateAsync(CreateJobViewModel model);
 		Task<EditJobResult> EditAsync(EditJobViewModel model);
-		Task<EditJobViewModel> GetInfoById(int id);
+		Task<FilterJobViewModel> EditAsync2(EditJobViewModel model);
+        Task<EditJobViewModel> GetInfoById(int id);
 		Task<DeleteJobResult> DeleteAsync(int id);
 		Task<DeleteJobViewModel> GetJobForDelete(int id);
 	}
