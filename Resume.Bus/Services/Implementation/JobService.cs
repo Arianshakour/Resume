@@ -1,6 +1,5 @@
 ﻿using Resume.Bus.Services.Interfaces;
 using Resume.DLA.Entities.Job;
-using Resume.DLA.Migrations;
 using Resume.DLA.Repositories.Interfaces;
 using Resume.DLA.ViewModels.Job;
 using System;

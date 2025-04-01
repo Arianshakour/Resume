@@ -63,7 +63,7 @@ namespace Resume.DLA.Migrations
                         {
                             Id = 1,
                             Bio = "",
-                            BrithDay = new DateOnly(2025, 1, 3),
+                            BrithDay = new DateOnly(2025, 4, 2),
                             Email = "",
                             FirstName = "",
                             LastName = "",

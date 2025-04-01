@@ -12,8 +12,8 @@ using Resume.DLA.Context;
 namespace Resume.DLA.Migrations
 {
     [DbContext(typeof(ResumeContext))]
-    [Migration("20241224215856_AddActivity")]
-    partial class AddActivity
+    [Migration("20250401230506_InitialDB")]
+    partial class InitialDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,7 +66,7 @@ namespace Resume.DLA.Migrations
                         {
                             Id = 1,
                             Bio = "",
-                            BrithDay = new DateOnly(2024, 12, 25),
+                            BrithDay = new DateOnly(2025, 4, 2),
                             Email = "",
                             FirstName = "",
                             LastName = "",
@@ -145,6 +145,66 @@ namespace Resume.DLA.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ContactUsTable");
+                });
+
+            modelBuilder.Entity("Resume.DLA.Entities.Education.Education", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("End")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("Start")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Educations");
+                });
+
+            modelBuilder.Entity("Resume.DLA.Entities.Job.Job", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("End")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("Start")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Jobs");
                 });
 
             modelBuilder.Entity("Resume.DLA.Entities.User.User", b =>
