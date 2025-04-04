@@ -6,6 +6,10 @@ namespace Resume.MVC.Controllers
     {
         public IActionResult Index()
         {
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return PartialView();
+            }
             return View();
         }
     }

@@ -38,9 +38,9 @@ namespace Resume.DLA.Context
 				Id = 1,
 				IsActive = true,
 				Mobile = "09121112233",
-				Password = "82-7C-CB-0E-EA-8A-70-6C-4C-34-A1-68-91-F8-4E-7B",
-				RePassword = "82-7C-CB-0E-EA-8A-70-6C-4C-34-A1-68-91-F8-4E-7B"
-			});
+				Password = "20-2C-B9-62-AC-59-07-5B-96-4B-07-15-2D-23-4B-70",
+				RePassword = "20-2C-B9-62-AC-59-07-5B-96-4B-07-15-2D-23-4B-70"
+            });
             modelBuilder.Entity<AboutMe>().HasData(new AboutMe()
             {
                 BrithDay = DateOnly.FromDateTime(DateTime.Now),

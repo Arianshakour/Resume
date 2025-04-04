@@ -7,6 +7,10 @@ namespace Resume.MVC.Controllers
         [HttpGet("/resume")]
         public IActionResult Index()
         {
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return PartialView();
+            }
             return View();
         }
     }
